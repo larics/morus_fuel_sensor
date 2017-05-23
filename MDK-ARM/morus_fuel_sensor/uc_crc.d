@@ -1,0 +1,12 @@
+morus_fuel_sensor\uc_crc.o: ..\libuavcan\libuavcan\src\transport\uc_crc.cpp
+morus_fuel_sensor\uc_crc.o: ..\libuavcan\libuavcan\include\uavcan/transport/crc.hpp
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\cassert
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
+morus_fuel_sensor\uc_crc.o: ..\libuavcan\libuavcan\include\uavcan/std.hpp
+morus_fuel_sensor\uc_crc.o: ..\libuavcan\libuavcan\include\uavcan/build_config.hpp
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\cstdarg
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\cstddef
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+morus_fuel_sensor\uc_crc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

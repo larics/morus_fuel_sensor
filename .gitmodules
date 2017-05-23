@@ -1,0 +1,6 @@
+[submodule "libuavcan"]
+	path = libuavcan
+	url = git@github.com:larics/libuavcan.git
+[submodule "morus_uavcan_msgs"]
+	path = morus_uavcan_msgs
+	url = git@github.com:larics/morus_uavcan_msgs.git
