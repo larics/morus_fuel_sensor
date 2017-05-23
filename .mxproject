@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/Marko/Documents/Development/kk/Inc
+HeaderPath=C:/Users/Marko/Documents/Development/morus_fuel_sensor/Inc
 HeaderFiles=gpio.h;FreeRTOSConfig.h;stm32f3xx_it.h;stm32f3xx_hal_conf.h;main.h;
-SourcePath=C:/Users/Marko/Documents/Development/kk/Src
+SourcePath=C:/Users/Marko/Documents/Development/morus_fuel_sensor/Src
 SourceFiles=gpio.h;FreeRTOSConfig.h;stm32f3xx_it.h;stm32f3xx_hal_conf.h;main.h;gpio.c;freertos.c;stm32f3xx_it.c;stm32f3xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]

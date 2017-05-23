@@ -1,7 +1,7 @@
 #ifndef FUEL_SENSOR_LIBUAVCAN_H
 #define FUEL_SENSOR_LIBUAVCAN_H
 
-#include <fuek_sensor_libuavcanSTM32.h>
+#include <fuel_sensor_libuavcanSTM32.h>
 #include <uavcan/uavcan.hpp>
 #include <uavcan/protocol/global_time_sync_slave.hpp>
 
@@ -20,17 +20,12 @@ typedef uavcan::Node<NodeMemoryPoolSize> Node;
 static Node& getNode();
 		
 class fuel_sensor_libuavcan{
-	private:
-		//prosiruje poruku s source_node_id timestampom ... 
-		/* typedef uavcan::MethodBinder<Node*,
-        void (Node::*)(const uavcan::ReceivedDataStructure<uavcan::protocol::debug::KeyValue>&) const>
-            KeyValueCallbackBinder;*/
-		
+	private:		
 		uavcan::GlobalTimeSyncSlave *time_sync_slave_can_;
 		
 		Node *node_;
 		
-		AcuRestartRequestHandler restart_request_handler;
+		FuelSensorRestartRequestHandler restart_request_handler;
 		
 		uavcan::protocol::SoftwareVersion sw_version;
 		uavcan::protocol::HardwareVersion hw_version;

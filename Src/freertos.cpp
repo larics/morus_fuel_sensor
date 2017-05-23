@@ -47,14 +47,14 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN Includes */     
-
+#include <fuel_sensor_libuavcan.h>
 /* USER CODE END Includes */
 
 /* Variables -----------------------------------------------------------------*/
 osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN Variables */
-
+extern fuel_sensor_libuavcan fuel_sensor_can1;
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/

@@ -51,7 +51,16 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define CAN_RX_Pin GPIO_PIN_11
+#define CAN_RX_GPIO_Port GPIOA
+#define CAN_TX_Pin GPIO_PIN_12
+#define CAN_TX_GPIO_Port GPIOA
+
 /* USER CODE BEGIN Private defines */
+#define SW_VERSION_MAJOR  1
+#define SW_VERSION_MINOR  0
+#define HW_VERSION_MAJOR  1
+#define HW_VERSION_MINOR  0
 
 /* USER CODE END Private defines */
 

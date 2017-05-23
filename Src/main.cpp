@@ -47,14 +47,14 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include <fuel_sensor_libuavcan.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+fuel_sensor_libuavcan fuel_sensor_can1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -90,7 +90,7 @@ int main(void)
   MX_GPIO_Init();
 
   /* USER CODE BEGIN 2 */
-
+	fuel_sensor_can1.can_init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

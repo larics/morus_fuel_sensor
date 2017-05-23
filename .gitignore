@@ -1,0 +1,7 @@
+/dsdlc_generated/
+/MDK-ARM/*.uvguix*
+/MDK-ARM/*.dep
+/MDK-ARM/RTE/*
+/MDK-ARM/morus_fuel_sensor
+/MDK-ARM/*.scvd
+/MDK-ARM/DebugConfig

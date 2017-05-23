@@ -333,7 +333,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F334x8,UAVCAN_STM32_BAREMETAL=1,STM32_TIMCLK1=36000000,STM32_PCLK1=36000000,UAVCAN_STM32_NUM_IFACES=1,UAVCAN_STM32_TIMER_NUMBER=3,NDEBUG,UAVCAN_CPP_VERSION=UAVCAN_CPP03</Define>
+              <Define>USE_HAL_DRIVER,STM32F334x8,UAVCAN_STM32_FREERTOS=1,STM32_TIMCLK1=36000000,STM32_PCLK1=36000000,UAVCAN_STM32_NUM_IFACES=1,UAVCAN_STM32_TIMER_NUMBER=3,NDEBUG,UAVCAN_CPP_VERSION=UAVCAN_CPP03</Define>
               <Undefine></Undefine>
               <IncludePath>../Inc;../Drivers/STM32F3xx_HAL_Driver/Inc;../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F3xx/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include;..\dsdlc_generated;..\libuavcan\libuavcan\include;..\libuavcan\libuavcan_drivers\stm32\driver\include</IncludePath>
             </VariousControls>
@@ -709,19 +709,9 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>freertos.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/freertos.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f3xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f3xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/main.c</FilePath>
             </File>
             <File>
               <FileName>gpio.c</FileName>
@@ -1196,11 +1186,6 @@
               <FilePath>..\Inc\chip.h</FilePath>
             </File>
             <File>
-              <FileName>FreeRTOSConfig.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\FreeRTOSConfig.h</FilePath>
-            </File>
-            <File>
               <FileName>gpio.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Inc\gpio.h</FilePath>
@@ -1219,6 +1204,26 @@
               <FileName>stm32f3xx_it.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Inc\stm32f3xx_it.h</FilePath>
+            </File>
+            <File>
+              <FileName>fuel_sensor_libuavcan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\fuel_sensor_libuavcan.h</FilePath>
+            </File>
+            <File>
+              <FileName>fuel_sensor_libuavcanSTM32.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\fuel_sensor_libuavcanSTM32.h</FilePath>
+            </File>
+            <File>
+              <FileName>FuelSensorRestartRequestHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\FuelSensorRestartRequestHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>FreeRTOSConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\FreeRTOSConfig.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1266,7 +1271,7 @@
                 <v6WtE>2</v6WtE>
                 <v6Rtti>2</v6Rtti>
                 <VariousControls>
-                  <MiscControls>--cpp</MiscControls>
+                  <MiscControls>--cpp11</MiscControls>
                   <Define>__cplusplus</Define>
                   <Undefine></Undefine>
                   <IncludePath></IncludePath>
@@ -1292,6 +1297,33 @@
               </Aads>
             </GroupArmAds>
           </GroupOption>
+          <Files>
+            <File>
+              <FileName>freertos.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\freertos.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>main.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\main.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>fuel_sensor_libuavcan.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\fuel_sensor_libuavcan.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>fuel_sensor_libuavcanSTM32.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\fuel_sensor_libuavcanSTM32.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>FuelSensorRestartRequestHandler.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\FuelSensorRestartRequestHandler.cpp</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
