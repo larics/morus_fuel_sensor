@@ -43,24 +43,23 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_hal.h"
-#include "cmsis_os.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#include <fuel_sensor_libuavcan.h>
+#include <fsu_libuavcan.h>
+#include <flash.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-fuel_sensor_libuavcan fuel_sensor_can1;
+fsu_libuavcan fsu_can1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void Error_Handler(void);
-void MX_FREERTOS_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -90,23 +89,22 @@ int main(void)
   MX_GPIO_Init();
 
   /* USER CODE BEGIN 2 */
-	fuel_sensor_can1.can_init();
+	if (readParametersFromFlash(&fsu_parameters) == HAL_ERROR)
+		readDefaultParameters(&fsu_parameters);
+		
+	fsu_can1.can_init();
   /* USER CODE END 2 */
-
-  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-
-  /* Start scheduler */
-  osKernelStart();
   
   /* We should never get here as control is now taken by the scheduler */
-
+	//fsu_can1.fsu_libuavcan_Init(fsu_parameters.fsu_id);
+	//fsu_can1.set_fuel_sensorID(fsu_parameters.fsu_id);
+	//fsu_can1.start();
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
   /* USER CODE END WHILE */
-
+	//fsu_can1.spin(50);
   /* USER CODE BEGIN 3 */
 
   }
