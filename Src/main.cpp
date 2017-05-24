@@ -93,18 +93,18 @@ int main(void)
 		readDefaultParameters(&fsu_parameters);
 		
 	fsu_can1.can_init();
+	fsu_can1.fsu_libuavcan_Init(fsu_parameters.fsu_id);
+	fsu_can1.set_fuel_sensorID(fsu_parameters.fsu_id);
+	fsu_can1.start();
   /* USER CODE END 2 */
   
-  /* We should never get here as control is now taken by the scheduler */
-	//fsu_can1.fsu_libuavcan_Init(fsu_parameters.fsu_id);
-	//fsu_can1.set_fuel_sensorID(fsu_parameters.fsu_id);
-	//fsu_can1.start();
-  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
   /* USER CODE END WHILE */
-	//fsu_can1.spin(50);
+		fsu_can1.set_fuel_level(0);
+		fsu_can1.fuel_sensor_status_publish();
+		fsu_can1.spin(50);
   /* USER CODE BEGIN 3 */
 
   }
