@@ -104,11 +104,10 @@ int main(void)
   while (1)
   {
   /* USER CODE END WHILE */
+  /* USER CODE BEGIN 3 */
 		fsu_can1.set_fuel_level(0);
 		fsu_can1.fuel_sensor_status_publish();
 		fsu_can1.spin(50);
-  /* USER CODE BEGIN 3 */
-
   }
   /* USER CODE END 3 */
 
