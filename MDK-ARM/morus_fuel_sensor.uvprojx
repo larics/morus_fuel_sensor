@@ -335,7 +335,7 @@
               <MiscControls>--cpp --gnu</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F334x8,UAVCAN_STM32_BAREMETAL=1,STM32_TIMCLK1=72000000,STM32_PCLK1=36000000,UAVCAN_STM32_NUM_IFACES=1,UAVCAN_STM32_TIMER_NUMBER=2,NDEBUG,UAVCAN_CPP_VERSION=UAVCAN_CPP03</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F3xx_HAL_Driver/Inc;../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F3xx/Include;../Drivers/CMSIS/Include;..\dsdlc_generated;..\libuavcan\libuavcan\include;..\libuavcan\libuavcan_drivers\stm32\driver\include</IncludePath>
+              <IncludePath>../Inc;      ../Drivers/STM32F3xx_HAL_Driver/Inc;      ../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy;      ../Drivers/CMSIS/Device/ST/STM32F3xx/Include;      ../Drivers/CMSIS/Include;      ..\dsdlc_generated;      ..\libuavcan\libuavcan\include;      ..\libuavcan\libuavcan_drivers\stm32\driver\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -483,6 +483,11 @@
               <FileName>i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>fuel_sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\fuel_sensor.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -854,6 +859,11 @@
               <FileName>i2c.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Inc\i2c.h</FilePath>
+            </File>
+            <File>
+              <FileName>fuel_sensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\fuel_sensor.h</FilePath>
             </File>
           </Files>
         </Group>

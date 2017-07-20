@@ -25,25 +25,20 @@ uint8 FRONT = 1
 uint8 RIGHT = 2
 uint8 BACK = 3
 uint8 LEFT = 4
-uint8 ALL = 0
 
-uint8 motor_id			# id of the electric motor 1-front, 2-right, 3-back, 4-left, 0 - all motors
-float32 position		# motor position [m]
+float32[4] position		# motor position from -1 to 1
 ******************************************************************************/
 
 /********************* DSDL signature source definition ***********************
 morus_uavcan_msgs.actuator.mm_motor.PositionReference
-saturated uint8 motor_id
-saturated float32 position
+saturated float32[4] position
 ******************************************************************************/
 
-#undef motor_id
 #undef position
 #undef FRONT
 #undef RIGHT
 #undef BACK
 #undef LEFT
-#undef ALL
 
 namespace morus_uavcan_msgs
 {
@@ -64,27 +59,23 @@ struct UAVCAN_EXPORT PositionReference_
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > RIGHT;
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > BACK;
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > LEFT;
-        typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > ALL;
     };
 
     struct FieldTypes
     {
-        typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > motor_id;
-        typedef ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate > position;
+        typedef ::uavcan::Array< ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate >, ::uavcan::ArrayModeStatic, 4 > position;
     };
 
     enum
     {
         MinBitLen
-            = FieldTypes::motor_id::MinBitLen
-            + FieldTypes::position::MinBitLen
+            = FieldTypes::position::MinBitLen
     };
 
     enum
     {
         MaxBitLen
-            = FieldTypes::motor_id::MaxBitLen
-            + FieldTypes::position::MaxBitLen
+            = FieldTypes::position::MaxBitLen
     };
 
     // Constants
@@ -92,15 +83,12 @@ struct UAVCAN_EXPORT PositionReference_
     static const typename ::uavcan::StorageType< typename ConstantTypes::RIGHT >::Type RIGHT; // 2
     static const typename ::uavcan::StorageType< typename ConstantTypes::BACK >::Type BACK; // 3
     static const typename ::uavcan::StorageType< typename ConstantTypes::LEFT >::Type LEFT; // 4
-    static const typename ::uavcan::StorageType< typename ConstantTypes::ALL >::Type ALL; // 0
 
     // Fields
-    typename ::uavcan::StorageType< typename FieldTypes::motor_id >::Type motor_id;
     typename ::uavcan::StorageType< typename FieldTypes::position >::Type position;
 
     PositionReference_()
-        : motor_id()
-        , position()
+        : position()
     {
         ::uavcan::StaticAssert<_tmpl == 0>::check();  // Usage check
 
@@ -110,7 +98,7 @@ struct UAVCAN_EXPORT PositionReference_
          * This check shall never be performed in user code because MaxBitLen value
          * actually depends on the nested types, thus it is not invariant.
          */
-        ::uavcan::StaticAssert<40 == MaxBitLen>::check();
+        ::uavcan::StaticAssert<128 == MaxBitLen>::check();
 #endif
     }
 
@@ -157,7 +145,6 @@ template <int _tmpl>
 bool PositionReference_<_tmpl>::operator==(ParameterType rhs) const
 {
     return
-        motor_id == rhs.motor_id &&
         position == rhs.position;
 }
 
@@ -165,7 +152,6 @@ template <int _tmpl>
 bool PositionReference_<_tmpl>::isClose(ParameterType rhs) const
 {
     return
-        ::uavcan::areClose(motor_id, rhs.motor_id) &&
         ::uavcan::areClose(position, rhs.position);
 }
 
@@ -177,11 +163,6 @@ int PositionReference_<_tmpl>::encode(ParameterType self, ::uavcan::ScalarCodec&
     (void)codec;
     (void)tao_mode;
     int res = 1;
-    res = FieldTypes::motor_id::encode(self.motor_id, codec,  ::uavcan::TailArrayOptDisabled);
-    if (res <= 0)
-    {
-        return res;
-    }
     res = FieldTypes::position::encode(self.position, codec,  tao_mode);
     return res;
 }
@@ -194,11 +175,6 @@ int PositionReference_<_tmpl>::decode(ReferenceType self, ::uavcan::ScalarCodec&
     (void)codec;
     (void)tao_mode;
     int res = 1;
-    res = FieldTypes::motor_id::decode(self.motor_id, codec,  ::uavcan::TailArrayOptDisabled);
-    if (res <= 0)
-    {
-        return res;
-    }
     res = FieldTypes::position::decode(self.position, codec,  tao_mode);
     return res;
 }
@@ -209,9 +185,8 @@ int PositionReference_<_tmpl>::decode(ReferenceType self, ::uavcan::ScalarCodec&
 template <int _tmpl>
 ::uavcan::DataTypeSignature PositionReference_<_tmpl>::getDataTypeSignature()
 {
-    ::uavcan::DataTypeSignature signature(0x1D89ADDD994A0345ULL);
+    ::uavcan::DataTypeSignature signature(0xADEB47F5065F8AD0ULL);
 
-    FieldTypes::motor_id::extendDataTypeSignature(signature);
     FieldTypes::position::extendDataTypeSignature(signature);
 
     return signature;
@@ -236,10 +211,6 @@ const typename ::uavcan::StorageType< typename PositionReference_<_tmpl>::Consta
 template <int _tmpl>
 const typename ::uavcan::StorageType< typename PositionReference_<_tmpl>::ConstantTypes::LEFT >::Type
     PositionReference_<_tmpl>::LEFT = 4U; // 4
-
-template <int _tmpl>
-const typename ::uavcan::StorageType< typename PositionReference_<_tmpl>::ConstantTypes::ALL >::Type
-    PositionReference_<_tmpl>::ALL = 0U; // 0
 
 /*
  * Final typedef
@@ -284,13 +255,6 @@ void YamlStreamer< ::morus_uavcan_msgs::actuator::mm_motor::PositionReference >:
         {
             s << "  ";
         }
-    }
-    s << "motor_id: ";
-    YamlStreamer< ::morus_uavcan_msgs::actuator::mm_motor::PositionReference::FieldTypes::motor_id >::stream(s, obj.motor_id, level + 1);
-    s << '\n';
-    for (int pos = 0; pos < level; pos++)
-    {
-        s << "  ";
     }
     s << "position: ";
     YamlStreamer< ::morus_uavcan_msgs::actuator::mm_motor::PositionReference::FieldTypes::position >::stream(s, obj.position, level + 1);

@@ -9,24 +9,34 @@
 #include <uavcan/protocol/SoftwareVersion.hpp>
 
 #include <morus_uavcan_msgs/sensors/fuel_sensor/Status.hpp>
+#include <morus_uavcan_msgs/protocol/StartFuelSensorCalibration.hpp>
 
 #include <FsuParamManager.h>
 
 #define UAVCAN_NODE_NAME		"fuel.sensor.unit"
 
-static const unsigned NodeMemoryPoolSize = 1024;
+static const unsigned NodeMemoryPoolSize = 2048;
 typedef uavcan::Node<NodeMemoryPoolSize> Node;
 
 static Node& getNode();
 		
 class fsu_libuavcan{
 	private:
+		
+		typedef uavcan::MethodBinder<fsu_libuavcan*, void (fsu_libuavcan::*)(const uavcan::ReceivedDataStructure<morus_uavcan_msgs::protocol::StartFuelSensorCalibration::Request>&,
+			morus_uavcan_msgs::protocol::StartFuelSensorCalibration::Response&)> FuelSensorCalibrationServiceBinder;
+				
 		uavcan::ParamServer *parameter_server_;
 		uavcan::GlobalTimeSyncSlave *time_sync_slave_can_;
 	
 		morus_uavcan_msgs::sensors::fuel_sensor::Status fuel_sensor_status;
 	
 		uavcan::Publisher<morus_uavcan_msgs::sensors::fuel_sensor::Status> *fuel_sensor_status_pub;
+		
+		uavcan::ServiceServer<morus_uavcan_msgs::protocol::StartFuelSensorCalibration, FuelSensorCalibrationServiceBinder> *fuel_sensor_calibration_srv;
+	
+		void fuel_sensor_calibration_callback(const uavcan::ReceivedDataStructure<morus_uavcan_msgs::protocol::StartFuelSensorCalibration::Request>& req,
+			morus_uavcan_msgs::protocol::StartFuelSensorCalibration::Response& res);
 		
 		Node *node_;
 		

@@ -13,6 +13,7 @@
 #include <uavcan/node/global_data_type_registry.hpp>
 #include <uavcan/marshal/types.hpp>
 
+#include <morus_uavcan_msgs\common\Vibration.hpp>
 #include <uavcan\Timestamp.hpp>
 
 /******************************* Source text **********************************
@@ -32,26 +33,27 @@ uint8 ALL = 0
 
 uavcan.Timestamp timestamp
 
-uint8 motor_id	    	    # 1-front, 2-right, 3-back, 4-left
+uint8 motor_id	    	   							# 1-front, 2-right, 3-back, 4-left
 
-float32 force_M		        # measured force in Newton
-float32 speed_M		        # measured rotational velocity radian per minute
-float32 temperatureR_M	    # measured temperature right cylinder in Celsius degree
-float32 temperatureL_M	    # measured temperature left cylinder in Celsius degree
-float32 throttle_M			# measured throttle (0-1)
-float32 fuel_level_M		# measured fuel level in % (range 0-1)
-uint8 choke_M				# measured choke position (open/close)
-float32 engine_hours		# total engine hours of gas motor
+float32 force_M		        						# measured force in Newton
+float32 speed_M		        						# measured rotational velocity radian per minute
+float32 temperatureR_M	    						# measured temperature right cylinder in Celsius degree
+float32 temperatureL_M	    						# measured temperature left cylinder in Celsius degree
+float32 throttle_M									# measured throttle (0-1)
+float32 fuel_level_M								# measured fuel level in % (range 0-1)
+uint8 choke_M										# measured choke position (open/close)
+float32 engine_hours								# total engine hours of gas motor
+morus_uavcan_msgs.common.Vibration[5] vibrations	# measured vibrations of gas motor
 
-uint8 throttle_dyn_error	# throttle dynamixel error
-uint8 choke_dyn_error		# throttle dynamixel error
+uint8 throttle_dyn_error							# throttle dynamixel error
+uint8 choke_dyn_error								# throttle dynamixel error
 
-uint8 ignition_S             # set ignition flag (0-off, 1-on)
-uint16 starter_ppm_S         # set ppm value for e-starter (range 1000-1900)
-float32 speed_S		        # set reference for gm velocity [rad/s]
-float32 throttle_S			# set reference for throttle [range 0-1]
-uint8 speed_ctl_S			# set value for speed control (0-off, 1-on)
-uint8 choke_S				# set value for choke
+uint8 ignition_S             						# set ignition flag (0-off, 1-on)
+uint16 starter_ppm_S         						# set ppm value for e-starter (range 1000-1900)
+float32 speed_S		        						# set reference for gm velocity [rad/s]
+float32 throttle_S									# set reference for throttle [range 0-1]
+uint8 speed_ctl_S									# set value for speed control (0-off, 1-on)
+uint8 choke_S										# set value for choke
 ******************************************************************************/
 
 /********************* DSDL signature source definition ***********************
@@ -66,6 +68,7 @@ saturated float32 throttle_M
 saturated float32 fuel_level_M
 saturated uint8 choke_M
 saturated float32 engine_hours
+morus_uavcan_msgs.common.Vibration[5] vibrations
 saturated uint8 throttle_dyn_error
 saturated uint8 choke_dyn_error
 saturated uint8 ignition_S
@@ -86,6 +89,7 @@ saturated uint8 choke_S
 #undef fuel_level_M
 #undef choke_M
 #undef engine_hours
+#undef vibrations
 #undef throttle_dyn_error
 #undef choke_dyn_error
 #undef ignition_S
@@ -134,6 +138,7 @@ struct UAVCAN_EXPORT Status_
         typedef ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate > fuel_level_M;
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > choke_M;
         typedef ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate > engine_hours;
+        typedef ::uavcan::Array< ::morus_uavcan_msgs::common::Vibration, ::uavcan::ArrayModeStatic, 5 > vibrations;
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > throttle_dyn_error;
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > choke_dyn_error;
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > ignition_S;
@@ -157,6 +162,7 @@ struct UAVCAN_EXPORT Status_
             + FieldTypes::fuel_level_M::MinBitLen
             + FieldTypes::choke_M::MinBitLen
             + FieldTypes::engine_hours::MinBitLen
+            + FieldTypes::vibrations::MinBitLen
             + FieldTypes::throttle_dyn_error::MinBitLen
             + FieldTypes::choke_dyn_error::MinBitLen
             + FieldTypes::ignition_S::MinBitLen
@@ -180,6 +186,7 @@ struct UAVCAN_EXPORT Status_
             + FieldTypes::fuel_level_M::MaxBitLen
             + FieldTypes::choke_M::MaxBitLen
             + FieldTypes::engine_hours::MaxBitLen
+            + FieldTypes::vibrations::MaxBitLen
             + FieldTypes::throttle_dyn_error::MaxBitLen
             + FieldTypes::choke_dyn_error::MaxBitLen
             + FieldTypes::ignition_S::MaxBitLen
@@ -208,6 +215,7 @@ struct UAVCAN_EXPORT Status_
     typename ::uavcan::StorageType< typename FieldTypes::fuel_level_M >::Type fuel_level_M;
     typename ::uavcan::StorageType< typename FieldTypes::choke_M >::Type choke_M;
     typename ::uavcan::StorageType< typename FieldTypes::engine_hours >::Type engine_hours;
+    typename ::uavcan::StorageType< typename FieldTypes::vibrations >::Type vibrations;
     typename ::uavcan::StorageType< typename FieldTypes::throttle_dyn_error >::Type throttle_dyn_error;
     typename ::uavcan::StorageType< typename FieldTypes::choke_dyn_error >::Type choke_dyn_error;
     typename ::uavcan::StorageType< typename FieldTypes::ignition_S >::Type ignition_S;
@@ -228,6 +236,7 @@ struct UAVCAN_EXPORT Status_
         , fuel_level_M()
         , choke_M()
         , engine_hours()
+        , vibrations()
         , throttle_dyn_error()
         , choke_dyn_error()
         , ignition_S()
@@ -245,7 +254,7 @@ struct UAVCAN_EXPORT Status_
          * This check shall never be performed in user code because MaxBitLen value
          * actually depends on the nested types, thus it is not invariant.
          */
-        ::uavcan::StaticAssert<416 == MaxBitLen>::check();
+        ::uavcan::StaticAssert<1376 == MaxBitLen>::check();
 #endif
     }
 
@@ -302,6 +311,7 @@ bool Status_<_tmpl>::operator==(ParameterType rhs) const
         fuel_level_M == rhs.fuel_level_M &&
         choke_M == rhs.choke_M &&
         engine_hours == rhs.engine_hours &&
+        vibrations == rhs.vibrations &&
         throttle_dyn_error == rhs.throttle_dyn_error &&
         choke_dyn_error == rhs.choke_dyn_error &&
         ignition_S == rhs.ignition_S &&
@@ -326,6 +336,7 @@ bool Status_<_tmpl>::isClose(ParameterType rhs) const
         ::uavcan::areClose(fuel_level_M, rhs.fuel_level_M) &&
         ::uavcan::areClose(choke_M, rhs.choke_M) &&
         ::uavcan::areClose(engine_hours, rhs.engine_hours) &&
+        ::uavcan::areClose(vibrations, rhs.vibrations) &&
         ::uavcan::areClose(throttle_dyn_error, rhs.throttle_dyn_error) &&
         ::uavcan::areClose(choke_dyn_error, rhs.choke_dyn_error) &&
         ::uavcan::areClose(ignition_S, rhs.ignition_S) &&
@@ -390,6 +401,11 @@ int Status_<_tmpl>::encode(ParameterType self, ::uavcan::ScalarCodec& codec,
         return res;
     }
     res = FieldTypes::engine_hours::encode(self.engine_hours, codec,  ::uavcan::TailArrayOptDisabled);
+    if (res <= 0)
+    {
+        return res;
+    }
+    res = FieldTypes::vibrations::encode(self.vibrations, codec,  ::uavcan::TailArrayOptDisabled);
     if (res <= 0)
     {
         return res;
@@ -491,6 +507,11 @@ int Status_<_tmpl>::decode(ReferenceType self, ::uavcan::ScalarCodec& codec,
     {
         return res;
     }
+    res = FieldTypes::vibrations::decode(self.vibrations, codec,  ::uavcan::TailArrayOptDisabled);
+    if (res <= 0)
+    {
+        return res;
+    }
     res = FieldTypes::throttle_dyn_error::decode(self.throttle_dyn_error, codec,  ::uavcan::TailArrayOptDisabled);
     if (res <= 0)
     {
@@ -536,7 +557,7 @@ int Status_<_tmpl>::decode(ReferenceType self, ::uavcan::ScalarCodec& codec,
 template <int _tmpl>
 ::uavcan::DataTypeSignature Status_<_tmpl>::getDataTypeSignature()
 {
-    ::uavcan::DataTypeSignature signature(0x1FB76F6C078BB2DEULL);
+    ::uavcan::DataTypeSignature signature(0x58A9842B17EBD63CULL);
 
     FieldTypes::timestamp::extendDataTypeSignature(signature);
     FieldTypes::motor_id::extendDataTypeSignature(signature);
@@ -548,6 +569,7 @@ template <int _tmpl>
     FieldTypes::fuel_level_M::extendDataTypeSignature(signature);
     FieldTypes::choke_M::extendDataTypeSignature(signature);
     FieldTypes::engine_hours::extendDataTypeSignature(signature);
+    FieldTypes::vibrations::extendDataTypeSignature(signature);
     FieldTypes::throttle_dyn_error::extendDataTypeSignature(signature);
     FieldTypes::choke_dyn_error::extendDataTypeSignature(signature);
     FieldTypes::ignition_S::extendDataTypeSignature(signature);
@@ -693,6 +715,13 @@ void YamlStreamer< ::morus_uavcan_msgs::actuator::gas_motor::Status >::stream(St
     }
     s << "engine_hours: ";
     YamlStreamer< ::morus_uavcan_msgs::actuator::gas_motor::Status::FieldTypes::engine_hours >::stream(s, obj.engine_hours, level + 1);
+    s << '\n';
+    for (int pos = 0; pos < level; pos++)
+    {
+        s << "  ";
+    }
+    s << "vibrations: ";
+    YamlStreamer< ::morus_uavcan_msgs::actuator::gas_motor::Status::FieldTypes::vibrations >::stream(s, obj.vibrations, level + 1);
     s << '\n';
     for (int pos = 0; pos < level; pos++)
     {

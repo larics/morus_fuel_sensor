@@ -47,6 +47,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include <fuel_sensor.h>
 #include <fsu_libuavcan.h>
 #include <flash.h>
 /* USER CODE END Includes */
@@ -56,6 +57,10 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 fsu_libuavcan fsu_can1;
+float level;
+int fuel_level;
+float MEAS1_EMPTY, MEAS2_EMPTY, MEAS3_EMPTY;
+float MEAS1, MEAS2, MEAS3;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,14 +73,13 @@ void Error_Handler(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 
 int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -98,6 +102,9 @@ int main(void)
 	fsu_can1.fsu_libuavcan_Init(fsu_parameters.fsu_id);
 	fsu_can1.set_fuel_sensorID(fsu_parameters.fsu_id);
 	fsu_can1.start();
+	
+	register_init();
+	
   /* USER CODE END 2 */
   
   /* USER CODE BEGIN WHILE */
@@ -105,9 +112,11 @@ int main(void)
   {
   /* USER CODE END WHILE */
   /* USER CODE BEGIN 3 */
-		fsu_can1.set_fuel_level(0);
+		liquid_level(&MEAS1_EMPTY, &MEAS2_EMPTY, &MEAS3_EMPTY, &MEAS1, &MEAS2, &MEAS3, &fuel_level, &level);
+			
+		fsu_can1.set_fuel_level(fuel_level);//fuel_level (int, 5% units) or level (float)
 		fsu_can1.fuel_sensor_status_publish();
-		fsu_can1.spin(50);
+		fsu_can1.spin(1000);
   }
   /* USER CODE END 3 */
 
@@ -124,11 +133,10 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
@@ -152,7 +160,7 @@ void SystemClock_Config(void)
   }
 
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
-  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();

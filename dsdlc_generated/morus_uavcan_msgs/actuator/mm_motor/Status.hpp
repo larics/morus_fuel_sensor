@@ -35,7 +35,7 @@ uavcan.Timestamp timestamp
 uint8 actuator_id         # 1 - front, 2 - right, 3 - back, 4-left
 
 float32 position_M        # measured position [m]
-float32 speed_M           # measured speed [rad/s]
+int16 speed_M           # measured speed [rpm]
 float32 temperature_M     # temperature [celsius degrees]
 
 float32 position_S        # position reference [m]
@@ -46,7 +46,7 @@ morus_uavcan_msgs.actuator.mm_motor.Status
 uavcan.Timestamp timestamp
 saturated uint8 actuator_id
 saturated float32 position_M
-saturated float32 speed_M
+saturated int16 speed_M
 saturated float32 temperature_M
 saturated float32 position_S
 ******************************************************************************/
@@ -90,7 +90,7 @@ struct UAVCAN_EXPORT Status_
         typedef ::uavcan::Timestamp timestamp;
         typedef ::uavcan::IntegerSpec< 8, ::uavcan::SignednessUnsigned, ::uavcan::CastModeSaturate > actuator_id;
         typedef ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate > position_M;
-        typedef ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate > speed_M;
+        typedef ::uavcan::IntegerSpec< 16, ::uavcan::SignednessSigned, ::uavcan::CastModeSaturate > speed_M;
         typedef ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate > temperature_M;
         typedef ::uavcan::FloatSpec< 32, ::uavcan::CastModeSaturate > position_S;
     };
@@ -148,7 +148,7 @@ struct UAVCAN_EXPORT Status_
          * This check shall never be performed in user code because MaxBitLen value
          * actually depends on the nested types, thus it is not invariant.
          */
-        ::uavcan::StaticAssert<192 == MaxBitLen>::check();
+        ::uavcan::StaticAssert<176 == MaxBitLen>::check();
 #endif
     }
 
@@ -295,7 +295,7 @@ int Status_<_tmpl>::decode(ReferenceType self, ::uavcan::ScalarCodec& codec,
 template <int _tmpl>
 ::uavcan::DataTypeSignature Status_<_tmpl>::getDataTypeSignature()
 {
-    ::uavcan::DataTypeSignature signature(0x7E4F0EB48A1A336EULL);
+    ::uavcan::DataTypeSignature signature(0x507B204A1E6598E4ULL);
 
     FieldTypes::timestamp::extendDataTypeSignature(signature);
     FieldTypes::actuator_id::extendDataTypeSignature(signature);

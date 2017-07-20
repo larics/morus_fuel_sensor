@@ -1,9 +1,11 @@
 #include <fsu_libuavcan.h>
+#include <fuel_sensor.h>
 #include <gpio.h>
 
 /*uint32_t usedBlocks = 0;
 uint32_t freeBlocks = 0;
 uint32_t peakUsedBlocks = 0;*/
+extern float MEAS1_EMPTY, MEAS2_EMPTY, MEAS3_EMPTY;
 
 fsu_libuavcan::fsu_libuavcan(void)
 { 
@@ -44,6 +46,10 @@ void fsu_libuavcan::fsu_libuavcan_Init(int uavcanNodeID)
 		fuel_sensor_status_pub->init();
 	  fuel_sensor_status_pub->setPriority(uavcan::TransferPriority::MiddleLower);
 	
+		static uavcan::ServiceServer<morus_uavcan_msgs::protocol::StartFuelSensorCalibration, FuelSensorCalibrationServiceBinder> fuel_sensor_calibration_srv_(*node_);
+		fuel_sensor_calibration_srv = &fuel_sensor_calibration_srv_;
+		fuel_sensor_calibration_srv->start(FuelSensorCalibrationServiceBinder(this, &fsu_libuavcan::fuel_sensor_calibration_callback));
+	
 		static uavcan::ParamServer parameter_server(*node_);
 		parameter_server_ = &parameter_server;
 		parameter_server_->start(&param_manager);
@@ -64,6 +70,14 @@ void fsu_libuavcan::fuel_sensor_status_publish(void)
 void fsu_libuavcan::start(void)
 {
 	node_->setModeOperational();
+}
+
+void fsu_libuavcan::fuel_sensor_calibration_callback(const uavcan::ReceivedDataStructure<morus_uavcan_msgs::protocol::StartFuelSensorCalibration::Request>& req,
+			morus_uavcan_msgs::protocol::StartFuelSensorCalibration::Response& res)
+{
+	calibration (&MEAS1_EMPTY, &MEAS2_EMPTY, &MEAS3_EMPTY);
+	
+	res.ok = true;
 }
 
 void fsu_libuavcan::spin(uint32_t msec)
